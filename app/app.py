@@ -526,7 +526,7 @@ elif module == "🧮 Exception Score Calculator":
         fig_radar = go.Figure(go.Scatterpolar(
             r=values_r + [values_r[0]],
             theta=categories + [categories[0]],
-            fill="toself", fillcolor=f"{badge_color}30",
+            fill="toself", fillcolor=f"rgba({int(badge_color[1:3],16)},{int(badge_color[3:5],16)},{int(badge_color[5:7],16)},0.18)",
             line=dict(color=badge_color, width=2.5),
         ))
         fig_radar.update_layout(
