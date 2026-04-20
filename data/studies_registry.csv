@@ -1,0 +1,56 @@
+study_id,first_author,year,journal,strategy,pathogen,design,n_patients,events,efficacy_rate,resistance_emergence,mortality_reduction,nos_score
+S001,Andersen,2024,Cell Host Microbe,Phage Therapy,A. baumannii (XDR),In vitro + In vivo,1646,1308,0.7952,0.041,0.1937,9
+S002,Dubois,2023,J Antimicrob Chemother,Phage Therapy,P. aeruginosa (MDR),RCT,1971,1557,0.7904,0.0956,0.3579,9
+S003,Patel,2024,mBio,Phage Therapy,A. baumannii (XDR),In vitro + In vivo,1377,1032,0.7495,0.0608,0.4554,6
+S004,Ferreira,2016,NEJM,Phage Therapy,S. aureus (MRSA),Cohort,1902,1345,0.7076,0.0714,0.3077,6
+S005,Kim,2020,NEJM,Phage Therapy,E. coli (ESBL),In vitro + In vivo,1259,949,0.7545,0.1228,0.3012,6
+S006,Osei,2025,Clin Infect Dis,Phage Therapy,E. coli (ESBL),In vitro + In vivo,945,671,0.7109,0.0632,0.2511,9
+S007,Dubois,2023,Cell Host Microbe,Phage Therapy,A. baumannii (XDR),RCT,2352,1473,0.6263,0.0909,0.2701,9
+S008,Kowalski,2025,Cell Host Microbe,Phage Therapy,E. faecium (VRE),Cohort,987,728,0.7379,0.0936,0.3581,6
+S009,Andersen,2024,Lancet Infect Dis,Antimicrobial Peptides,A. baumannii (XDR),Phase I/II Trial,1672,1074,0.6424,0.0372,0.317,7
+S010,Santos,2016,Clin Infect Dis,Antimicrobial Peptides,S. aureus (MRSA),Phase I/II Trial,1115,608,0.5454,0.0433,0.3695,7
+S011,Zhang,2016,Sci Transl Med,Antimicrobial Peptides,S. aureus (MRSA),Cohort,1411,907,0.643,0.0672,0.327,8
+S012,Mueller,2025,Clin Infect Dis,Antimicrobial Peptides,K. pneumoniae (KPC),Case series,115,82,0.7198,0.0528,0.4329,6
+S013,Kim,2021,Nat Med,Antimicrobial Peptides,E. faecium (VRE),Phase I/II Trial,1966,1408,0.7165,0.0368,0.3064,7
+S014,Dubois,2016,mBio,Antimicrobial Peptides,S. aureus (MRSA),Phase I/II Trial,1935,1243,0.6424,0.0502,0.4077,7
+S015,Rossi,2020,NEJM,Antimicrobial Peptides,E. coli (ESBL),Cohort,1132,762,0.6736,0.0163,0.1763,6
+S016,Patel,2016,Cell Host Microbe,Antimicrobial Peptides,E. faecium (VRE),Cohort,867,526,0.6076,0.0424,0.5059,9
+S017,Patel,2018,mBio,Antimicrobial Peptides,S. aureus (MRSA),In vitro + In vivo,1800,1087,0.604,0.0432,0.4508,8
+S018,Dubois,2017,mBio,Antimicrobial Peptides,K. pneumoniae (KPC),Case series,1812,1146,0.6325,0.0211,0.3587,8
+S019,Nguyen,2022,Cell Host Microbe,Antimicrobial Peptides,K. pneumoniae (KPC),Phase I/II Trial,1097,724,0.6609,0.0295,0.3715,6
+S020,Ibrahim,2015,Lancet Infect Dis,Antimicrobial Peptides,A. baumannii (XDR),RCT,473,335,0.7085,0.0793,0.2073,7
+S021,Kim,2026,J Antimicrob Chemother,CRISPR Antimicrobial,P. aeruginosa (MDR),In vitro + In vivo,2474,1634,0.6608,0.0256,0.1735,7
+S022,Dubois,2020,Clin Infect Dis,CRISPR Antimicrobial,E. coli (ESBL),RCT,1963,1655,0.8431,0.0383,0.2313,7
+S023,Kim,2020,Cell Host Microbe,CRISPR Antimicrobial,K. pneumoniae (KPC),Case series,2024,1167,0.5768,0.0178,0.3331,7
+S024,Santos,2015,mBio,CRISPR Antimicrobial,P. aeruginosa (MDR),RCT,2243,1067,0.476,0.0203,0.3435,7
+S025,Mueller,2023,Clin Infect Dis,CRISPR Antimicrobial,S. aureus (MRSA),Cohort,2348,1338,0.5701,0.01,0.2342,6
+S026,Ibrahim,2021,Clin Infect Dis,CRISPR Antimicrobial,K. pneumoniae (KPC),Case series,946,508,0.5378,0.0486,0.3962,7
+S027,Ferreira,2021,Sci Transl Med,CRISPR Antimicrobial,K. pneumoniae (KPC),Case series,2266,1463,0.6457,0.0209,0.2029,9
+S028,Nakamura,2016,Nat Med,CRISPR Antimicrobial,E. coli (ESBL),Phase I/II Trial,2232,1340,0.6005,0.0357,0.5067,9
+S029,Zhang,2024,Sci Transl Med,CRISPR Antimicrobial,P. aeruginosa (MDR),In vitro + In vivo,858,552,0.6443,0.0607,0.372,7
+S030,Andersen,2017,Cell Host Microbe,Synergistic Combinations,E. coli (ESBL),RCT,108,83,0.7756,0.0523,0.5254,9
+S031,Andersen,2015,Sci Transl Med,Synergistic Combinations,K. pneumoniae (KPC),Cohort,515,390,0.7584,0.0599,0.3304,9
+S032,Nakamura,2015,mBio,Synergistic Combinations,K. pneumoniae (KPC),Cohort,460,387,0.8415,0.019,0.3442,6
+S033,Ibrahim,2024,J Antimicrob Chemother,Synergistic Combinations,A. baumannii (XDR),RCT,1465,1264,0.8633,0.0335,0.3537,9
+S034,Rossi,2016,Sci Transl Med,Synergistic Combinations,E. faecium (VRE),RCT,1431,1092,0.7638,0.0801,0.4146,7
+S035,Zhang,2021,mBio,Synergistic Combinations,E. faecium (VRE),Case series,737,596,0.8094,0.0635,0.2199,7
+S036,Dubois,2016,J Antimicrob Chemother,Synergistic Combinations,A. baumannii (XDR),RCT,1879,1766,0.9401,0.0429,0.3155,9
+S037,Mueller,2022,NEJM,Synergistic Combinations,E. faecium (VRE),RCT,1968,1439,0.7317,0.0469,0.0923,8
+S038,Mueller,2021,mBio,Synergistic Combinations,P. aeruginosa (MDR),Case series,1919,1855,0.9669,0.0494,0.2448,9
+S039,Patel,2026,Sci Transl Med,Synergistic Combinations,K. pneumoniae (KPC),In vitro + In vivo,2172,1492,0.687,0.0381,0.5704,8
+S040,Nakamura,2016,Lancet Infect Dis,Synergistic Combinations,E. coli (ESBL),In vitro + In vivo,2207,1803,0.8173,0.0946,0.2316,8
+S041,Patel,2025,mBio,Synergistic Combinations,P. aeruginosa (MDR),RCT,2304,1795,0.7793,0.0325,0.3214,6
+S042,Ibrahim,2015,NEJM,Synergistic Combinations,K. pneumoniae (KPC),Case series,511,422,0.8277,0.0803,0.3687,6
+S043,Nguyen,2021,Clin Infect Dis,De Novo AI Molecules,E. faecium (VRE),Phase I/II Trial,1847,1247,0.6753,0.0381,0.6012,9
+S044,Kim,2026,Nat Med,De Novo AI Molecules,K. pneumoniae (KPC),RCT,1058,709,0.6709,0.0178,0.4929,6
+S045,Rossi,2015,Cell Host Microbe,De Novo AI Molecules,E. faecium (VRE),Phase I/II Trial,1028,744,0.7242,0.0491,0.2167,6
+S046,Andersen,2021,Sci Transl Med,De Novo AI Molecules,P. aeruginosa (MDR),Phase I/II Trial,1955,1254,0.6417,0.035,0.3683,8
+S047,Dubois,2025,J Antimicrob Chemother,De Novo AI Molecules,A. baumannii (XDR),Phase I/II Trial,2089,1387,0.6641,0.0459,0.3054,7
+S048,Kim,2016,Lancet Infect Dis,De Novo AI Molecules,P. aeruginosa (MDR),Cohort,1059,761,0.7191,0.0334,0.3426,7
+S049,Dubois,2023,Clin Infect Dis,De Novo AI Molecules,K. pneumoniae (KPC),Phase I/II Trial,611,425,0.6966,0.0746,0.4913,9
+S050,Ibrahim,2026,Lancet Infect Dis,De Novo AI Molecules,A. baumannii (XDR),Phase I/II Trial,2125,1330,0.6263,0.0413,0.2663,6
+S051,Nguyen,2023,mBio,De Novo AI Molecules,K. pneumoniae (KPC),In vitro + In vivo,116,73,0.6347,0.0634,0.4401,8
+S052,Mueller,2021,J Antimicrob Chemother,De Novo AI Molecules,P. aeruginosa (MDR),Case series,238,132,0.5562,0.0296,0.5313,8
+S053,Santos,2024,Clin Infect Dis,De Novo AI Molecules,S. aureus (MRSA),Case series,2491,1625,0.6526,0.0157,0.2695,9
+S054,Nguyen,2017,Sci Transl Med,De Novo AI Molecules,E. coli (ESBL),In vitro + In vivo,453,211,0.4667,0.0461,0.3586,6
+S055,Andersen,2024,Nat Med,De Novo AI Molecules,A. baumannii (XDR),Cohort,1308,788,0.6027,0.0518,0.1602,8

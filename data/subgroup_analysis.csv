@@ -1,0 +1,19 @@
+strategy,pathogen,n_studies,pooled_efficacy,ci_lo,ci_hi,i2
+Phage Therapy,E. coli (ESBL),2,0.7336,0.6888,0.7741,81.0
+Phage Therapy,A. baumannii (XDR),3,0.7287,0.6129,0.8201,98.6
+Antimicrobial Peptides,K. pneumoniae (KPC),3,0.6542,0.6203,0.6865,61.7
+Antimicrobial Peptides,A. baumannii (XDR),2,0.6736,0.6057,0.7349,86.0
+Antimicrobial Peptides,S. aureus (MRSA),4,0.6098,0.5677,0.6503,91.3
+Antimicrobial Peptides,E. faecium (VRE),2,0.6648,0.5509,0.7622,96.9
+CRISPR Antimicrobial,E. coli (ESBL),2,0.7396,0.449,0.9082,99.6
+CRISPR Antimicrobial,K. pneumoniae (KPC),3,0.5883,0.526,0.6478,94.9
+CRISPR Antimicrobial,P. aeruginosa (MDR),3,0.5956,0.4639,0.7149,98.9
+Synergistic Combinations,E. coli (ESBL),2,0.8125,0.7859,0.8365,15.5
+Synergistic Combinations,K. pneumoniae (KPC),4,0.783,0.697,0.8499,96.0
+Synergistic Combinations,A. baumannii (XDR),2,0.9086,0.8028,0.9604,98.2
+Synergistic Combinations,P. aeruginosa (MDR),2,0.9101,0.5607,0.9877,99.6
+Synergistic Combinations,E. faecium (VRE),3,0.7678,0.725,0.8058,88.9
+De Novo AI Molecules,K. pneumoniae (KPC),3,0.6772,0.6532,0.7002,9.0
+De Novo AI Molecules,A. baumannii (XDR),3,0.632,0.597,0.6656,85.9
+De Novo AI Molecules,P. aeruginosa (MDR),3,0.6455,0.5675,0.7164,93.4
+De Novo AI Molecules,E. faecium (VRE),2,0.6992,0.6492,0.745,86.5

@@ -1,0 +1,7 @@
+pathogen,resistance_genes,resistance_mechanisms,global_mortality_pct,annual_cases_M,effective_strategies
+E. coli (ESBL),"blaCTX-M, blaTEM, blaSHV","Beta-lactamase production, efflux pumps",12.4,2.1,Phage Therapy; Siderophore-antibiotic; CRISPR Antimicrobial
+K. pneumoniae (KPC),"blaKPC, blaNDM, blaOXA-48","Carbapenemase production, porin loss",28.6,0.8,AI-designed scaffold; Phage-derived endolysin; Siderophore-antibiotic
+A. baumannii (XDR),"blaOXA-23, blaOXA-58, armA","Carbapenemase, methylase, efflux",43.2,0.45,Phage Therapy; AI-designed scaffold; Phage-derived endolysin
+P. aeruginosa (MDR),"mexAB-oprM, blaVIM, blaIMP","Efflux pumps, biofilm, beta-lactamase",31.7,0.56,Quorum sensing inhibitor; Phage Therapy; Antimicrobial Peptide
+S. aureus (MRSA),"mecA, mecC, vanA","PBP2a altered, vancomycin tolerance",22.1,1.2,Phage-derived endolysin; Bacteriocin; Antimicrobial Peptide
+E. faecium (VRE),"vanA, vanB, vanC",D-Ala-D-Lac substitution,18.9,0.34,Glycopeptide analog; Bacteriocin; CRISPR Antimicrobial

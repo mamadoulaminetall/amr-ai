@@ -1,0 +1,6 @@
+strategy,n_studies,total_patients,pooled_efficacy,efficacy_ci_lo,efficacy_ci_hi,efficacy_i2,pooled_resistance,resistance_ci_lo,resistance_ci_hi,resistance_i2,pooled_mortality_reduction,mortality_ci_lo,mortality_ci_hi,mortality_i2
+Phage Therapy,8,12439,0.7367,0.6917,0.7772,96.7,0.0771,0.062,0.0954,91.9,0.3072,0.2562,0.3635,97.6
+Antimicrobial Peptides,12,15395,0.6474,0.6205,0.6734,91.3,0.0401,0.0322,0.05,86.8,0.3457,0.3002,0.3942,97.3
+CRISPR Antimicrobial,9,17354,0.6248,0.5561,0.6887,98.8,0.0275,0.02,0.0378,91.9,0.3011,0.2321,0.3805,99.1
+Synergistic Combinations,13,17676,0.8312,0.7826,0.8707,98.4,0.0504,0.0397,0.0639,92.2,0.3182,0.2499,0.3953,99.0
+De Novo AI Molecules,13,16378,0.6456,0.6175,0.6727,92.2,0.0386,0.0312,0.0477,85.2,0.3621,0.2914,0.4393,98.9
