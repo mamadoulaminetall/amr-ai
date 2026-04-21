@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>AMR-AI Agent — Architecture</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #03060f;
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    font-family: -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  .scene {
+    position: relative;
+    width: 1280px;
+    height: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 28px;
+    gap: 0;
+  }
+
+  /* Animated background grid */
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(6,182,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6,182,212,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridFade 1s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes gridFade { to { opacity: 1; } }
+
+  .bg-glow {
+    position: absolute;
+    width: 700px;
+    height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(6,182,212,0.05) 0%, transparent 70%);
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+    50%       { opacity: 1;   transform: translate(-50%,-50%) scale(1.08); }
+  }
+
+  /* ── Header ── */
+  .header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out 0.3s forwards;
+    margin-bottom: 16px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: #06b6d4;
+    border-radius: 100px;
+    padding: 5px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  /* ── SVG container ── */
+  .diagram {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  /* ── Stats ── */
+  .stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 44px;
+    margin-top: 14px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out 6s forwards;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 900; color: #06b6d4; }
+  .stat-num.green { color: #10b981; }
+  .stat-label { font-size: 10px; color: #475569; margin-top: 1px; }
+  .stat-sep { width: 1px; height: 32px; background: rgba(255,255,255,0.07); align-self: center; }
+
+  /* ── Watermark ── */
+  .watermark {
+    position: absolute;
+    bottom: 8px;
+    right: 18px;
+    font-size: 9px;
+    color: rgba(6,182,212,0.18);
+    letter-spacing: 2px;
+    font-family: monospace;
+    z-index: 2;
+  }
+
+  /* ── SVG element animations ── */
+  #bloc-clinician { opacity: 0; animation: fadeScale .5s ease-out 1s   forwards; }
+  #bloc-agent     { opacity: 0; animation: fadeScale .6s cubic-bezier(.34,1.56,.64,1) 2s forwards; }
+  #bloc-response  { opacity: 0; animation: fadeScale .5s ease-out 5s   forwards; }
+  #bloc-db        { opacity: 0; animation: fadeUp    .5s ease-out 2.5s forwards; }
+  #tool-1         { opacity: 0; animation: fadeLeft  .4s ease-out 3s   forwards; }
+  #tool-2         { opacity: 0; animation: fadeLeft  .4s ease-out 3.3s forwards; }
+  #tool-3         { opacity: 0; animation: fadeLeft  .4s ease-out 3.6s forwards; }
+  #tool-4         { opacity: 0; animation: fadeLeft  .4s ease-out 3.9s forwards; }
+
+  .arrow-query    { stroke-dasharray:80;  stroke-dashoffset:80;  animation: drawLine .5s ease-out 1.6s  forwards; }
+  .arrow-response { stroke-dasharray:120; stroke-dashoffset:120; animation: drawLine .6s ease-out 4.7s  forwards; }
+  .arrow-tool-1   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .4s ease-out 2.8s  forwards; }
+  .arrow-tool-2   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .4s ease-out 3.1s  forwards; }
+  .arrow-tool-3   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .4s ease-out 3.4s  forwards; }
+  .arrow-tool-4   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .4s ease-out 3.7s  forwards; }
+  .arrow-back-1   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .3s ease-out 4.2s  forwards; }
+  .arrow-back-2   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .3s ease-out 4.35s forwards; }
+  .arrow-back-3   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .3s ease-out 4.5s  forwards; }
+  .arrow-back-4   { stroke-dasharray:110; stroke-dashoffset:110; animation: drawLine .3s ease-out 4.65s forwards; }
+  .arrow-db       { stroke-dasharray:20;  stroke-dashoffset:20;  animation: drawLine .3s ease-out 3s    forwards; }
+
+  #label-query { opacity:0; animation: fadeIn .4s ease-out 2s   forwards; }
+  #label-loop  { opacity:0; animation: fadeIn .6s ease-out 5.5s forwards; }
+
+  #agent-glow-rect   { animation: agentGlow    2s ease-in-out 2.5s infinite; }
+  #response-glow-rect{ animation: responseGlow 2s ease-in-out 5.5s infinite; }
+
+  @keyframes agentGlow {
+    0%,100% { filter: drop-shadow(0 0 6px rgba(6,182,212,.6)); }
+    50%     { filter: drop-shadow(0 0 20px rgba(6,182,212,.95)); }
+  }
+  @keyframes responseGlow {
+    0%,100% { filter: drop-shadow(0 0 4px rgba(16,185,129,.5)); }
+    50%     { filter: drop-shadow(0 0 16px rgba(16,185,129,.95)); }
+  }
+  @keyframes fadeScale {
+    from { opacity:0; transform:scale(.85); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  @keyframes fadeLeft {
+    from { opacity:0; transform:translateX(18px); }
+    to   { opacity:1; transform:translateX(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(10px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity:0; } to { opacity:1; }
+  }
+  @keyframes drawLine {
+    to { stroke-dashoffset:0; }
+  }
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="header">
+    <div class="badge">&#129302; Premier Agent IA Clinique &middot; Avril 2026</div>
+    <div class="title">AMR-AI Agent</div>
+  </div>
+
+  <div class="diagram">
+  <svg viewBox="0 0 920 450" xmlns="http://www.w3.org/2000/svg" width="920" height="450">
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#334155"/>
+      </marker>
+      <marker id="arr-cyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#06b6d4"/>
+      </marker>
+      <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#10b981"/>
+      </marker>
+      <filter id="glow-cyan" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glow-green-f" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Background -->
+    <rect width="920" height="450" rx="16" fill="#060e1e" stroke="rgba(6,182,212,0.18)" stroke-width="1.5"/>
+
+    <!-- Watermark -->
+    <text x="460" y="443" text-anchor="middle" fill="rgba(6,182,212,0.16)" font-size="9" font-family="monospace" letter-spacing="2">MEDFLOW AI &middot; amr-ai.streamlit.app</text>
+
+    <!-- ── Clinician ── -->
+    <g id="bloc-clinician">
+      <rect x="32" y="185" width="148" height="80" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+      <text x="106" y="211" text-anchor="middle" font-size="22">&#x1F468;&#x200D;&#x2695;&#xFE0F;</text>
+      <text x="106" y="233" text-anchor="middle" fill="#f1f5f9" font-size="11" font-weight="700" font-family="sans-serif">Clinicien</text>
+      <text x="106" y="249" text-anchor="middle" fill="#475569" font-size="9" font-family="sans-serif">Question AMR</text>
+    </g>
+
+    <!-- Query arrow -->
+    <line class="arrow-query" x1="180" y1="225" x2="262" y2="225"
+          stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+    <text id="label-query" x="221" y="219" text-anchor="middle" fill="#475569" font-size="9" font-family="sans-serif">Query</text>
+
+    <!-- ── Agent ── -->
+    <g id="bloc-agent">
+      <rect id="agent-glow-rect" x="264" y="155" width="210" height="145" rx="14"
+            fill="#060e1e" stroke="#06b6d4" stroke-width="2.5" filter="url(#glow-cyan)"/>
+      <rect x="264" y="155" width="210" height="40" rx="14" fill="rgba(6,182,212,0.14)"/>
+      <rect x="264" y="181" width="210" height="14" fill="rgba(6,182,212,0.14)"/>
+      <text x="369" y="178" text-anchor="middle" fill="#06b6d4" font-size="10" font-weight="700"
+            font-family="sans-serif" letter-spacing="1.5">AMR-AI AGENT</text>
+      <text x="369" y="212" text-anchor="middle" font-size="20">&#x1F916;</text>
+      <text x="369" y="234" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="700" font-family="sans-serif">Claude Haiku</text>
+      <text x="369" y="250" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">Anthropic API &middot; Tool Use</text>
+      <text x="369" y="270" text-anchor="middle" fill="#334155" font-size="8" font-family="monospace">Agent Loop &middot; stop_reason</text>
+      <text x="369" y="282" text-anchor="middle" fill="#334155" font-size="8" font-family="monospace">tool_use &#x2192; end_turn</text>
+    </g>
+
+    <!-- Tool arrows (agent → tools) -->
+    <line class="arrow-tool-1" x1="474" y1="205" x2="556" y2="48"
+          stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-cyan)"/>
+    <line class="arrow-tool-2" x1="474" y1="200" x2="556" y2="138"
+          stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-cyan)"/>
+    <line class="arrow-tool-3" x1="474" y1="215" x2="556" y2="228"
+          stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-cyan)"/>
+    <line class="arrow-tool-4" x1="474" y1="230" x2="556" y2="318"
+          stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-cyan)"/>
+
+    <!-- ── Tools ── -->
+    <g id="tool-1">
+      <rect x="558" y="28" width="172" height="50" rx="10" fill="#0f172a" stroke="rgba(139,92,246,0.6)" stroke-width="1.5"/>
+      <text x="574" y="51" fill="#8b5cf6" font-size="14">&#x1F52C;</text>
+      <text x="596" y="51" fill="#f1f5f9" font-size="10" font-weight="700" font-family="monospace">search_trials()</text>
+      <text x="596" y="66" fill="#475569" font-size="8" font-family="sans-serif">97 essais &middot; 58 000+ pts</text>
+    </g>
+    <g id="tool-2">
+      <rect x="558" y="118" width="172" height="50" rx="10" fill="#0f172a" stroke="rgba(16,185,129,0.6)" stroke-width="1.5"/>
+      <text x="574" y="141" fill="#10b981" font-size="14">&#x1F48A;</text>
+      <text x="596" y="141" fill="#f1f5f9" font-size="10" font-weight="700" font-family="monospace">score_molecule()</text>
+      <text x="596" y="156" fill="#475569" font-size="8" font-family="sans-serif">Score E &middot; 33 mol&#233;cules</text>
+    </g>
+    <g id="tool-3">
+      <rect x="558" y="208" width="172" height="50" rx="10" fill="#0f172a" stroke="rgba(239,68,68,0.6)" stroke-width="1.5"/>
+      <text x="574" y="231" fill="#ef4444" font-size="14">&#x1F9A0;</text>
+      <text x="596" y="228" fill="#f1f5f9" font-size="10" font-weight="700" font-family="monospace">get_resistance_profile()</text>
+      <text x="596" y="243" fill="#475569" font-size="8" font-family="sans-serif">ESKAPE &middot; g&#232;nes &middot; m&#233;canismes</text>
+    </g>
+    <g id="tool-4">
+      <rect x="558" y="298" width="172" height="50" rx="10" fill="#0f172a" stroke="rgba(249,115,22,0.6)" stroke-width="1.5"/>
+      <text x="574" y="321" fill="#f97316" font-size="14">&#x1F4CA;</text>
+      <text x="596" y="321" fill="#f1f5f9" font-size="10" font-weight="700" font-family="monospace">compare_compounds()</text>
+      <text x="596" y="336" fill="#475569" font-size="8" font-family="sans-serif">Top-N &middot; exception score</text>
+    </g>
+
+    <!-- Return arrows (tools → agent) -->
+    <line class="arrow-back-1" x1="556" y1="53"  x2="476" y2="200" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-green)"/>
+    <line class="arrow-back-2" x1="556" y1="143" x2="476" y2="210" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-green)"/>
+    <line class="arrow-back-3" x1="556" y1="233" x2="476" y2="225" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-green)"/>
+    <line class="arrow-back-4" x1="556" y1="323" x2="476" y2="235" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-green)"/>
+
+    <!-- DB block -->
+    <g id="bloc-db">
+      <rect x="752" y="160" width="140" height="130" rx="10" fill="#060e1e" stroke="rgba(59,130,246,0.4)" stroke-width="1.5"/>
+      <text x="822" y="182" text-anchor="middle" fill="#3b82f6" font-size="10" font-weight="700" font-family="sans-serif">&#x1F4BE; Donn&#233;es</text>
+      <text x="822" y="202" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">molecules_db.csv</text>
+      <text x="822" y="217" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">eskape_pathogens.csv</text>
+      <text x="822" y="232" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">meta_analytic_estimates</text>
+      <text x="822" y="247" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">studies_registry.csv</text>
+      <line class="arrow-db" x1="752" y1="225" x2="732" y2="225"
+            stroke="rgba(59,130,246,0.5)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+    </g>
+
+    <!-- Response arrow -->
+    <line class="arrow-response" x1="264" y1="295" x2="168" y2="355"
+          stroke="#10b981" stroke-width="2" marker-end="url(#arr-green)" filter="url(#glow-green-f)"/>
+
+    <!-- ── Response block ── -->
+    <g id="bloc-response">
+      <rect id="response-glow-rect" x="32" y="362" width="220" height="66" rx="12"
+            fill="#0f172a" stroke="rgba(16,185,129,0.55)" stroke-width="1.5" filter="url(#glow-green-f)"/>
+      <text x="142" y="384" text-anchor="middle" fill="#10b981" font-size="10" font-weight="700" font-family="sans-serif">&#x2736; Recommandation Clinique</text>
+      <text x="142" y="400" text-anchor="middle" fill="#475569" font-size="8" font-family="sans-serif">Strat&#233;gie &middot; Mol&#233;cules &middot; Preuves</text>
+      <text x="142" y="415" text-anchor="middle" fill="#475569" font-size="8" font-family="sans-serif">k &#233;tudes &middot; N patients &middot; Mortalit&#233;</text>
+    </g>
+
+    <!-- Loop label -->
+    <text id="label-loop" x="380" y="440" text-anchor="middle" fill="rgba(6,182,212,0.28)"
+          font-size="9" font-style="italic" font-family="monospace">
+      Agent Loop : LLM &#x2192; tool_use &#x2192; r&#233;sultats &#x2192; end_turn &#x2192; r&#233;ponse
+    </text>
+  </svg>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">97</div>
+      <div class="stat-label">Essais cliniques</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-num">58 000+</div>
+      <div class="stat-label">Patients</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Outils spécialisés</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-num green">83.1%</div>
+      <div class="stat-label">Efficacité poolée max</div>
+    </div>
+  </div>
+
+  <div class="watermark">MEDFLOW AI &middot; amr-ai.streamlit.app</div>
+</div>
+</body>
+</html>
