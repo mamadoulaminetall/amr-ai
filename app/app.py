@@ -584,7 +584,10 @@ elif module == "🤖 AMR-AI Agent":
 
     # Clé API — secrets Streamlit Cloud en priorité, sinon saisie manuelle
     if "amr_api_key" not in st.session_state:
-        st.session_state["amr_api_key"] = st.secrets.get("ANTHROPIC_API_KEY", "")
+        try:
+            st.session_state["amr_api_key"] = st.secrets["ANTHROPIC_API_KEY"]
+        except Exception:
+            st.session_state["amr_api_key"] = ""
 
     with st.sidebar:
         st.markdown("---")
