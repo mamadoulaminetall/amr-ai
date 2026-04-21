@@ -582,16 +582,21 @@ elif module == "🤖 AMR-AI Agent":
     st.markdown('<div class="section-header">AMR-AI Agent</div>', unsafe_allow_html=True)
     st.markdown("Agent clinique IA · Hyper-méta-analyse de 97 essais · 58 000+ patients")
 
-    # Clé API
+    # Clé API — secrets Streamlit Cloud en priorité, sinon saisie manuelle
+    if "amr_api_key" not in st.session_state:
+        st.session_state["amr_api_key"] = st.secrets.get("ANTHROPIC_API_KEY", "")
+
     with st.sidebar:
         st.markdown("---")
-        api_key = st.text_input("🔑 Anthropic API Key", type="password",
-                                value=st.session_state.get("amr_api_key", ""))
-        if api_key:
-            st.session_state["amr_api_key"] = api_key
+        if st.session_state["amr_api_key"]:
             st.success("Clé configurée ✓")
+        else:
+            api_key = st.text_input("🔑 Anthropic API Key", type="password")
+            if api_key:
+                st.session_state["amr_api_key"] = api_key
+                st.rerun()
 
-    if not st.session_state.get("amr_api_key"):
+    if not st.session_state["amr_api_key"]:
         st.info("Entrez votre clé API Anthropic dans la barre latérale pour activer l'agent.")
         st.stop()
 
