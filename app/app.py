@@ -96,6 +96,7 @@ with st.sidebar:
         "🔬 Exception Molecule Scanner",
         "🦠 ESKAPE Pathogen Profiler",
         "🧮 Exception Score Calculator",
+        "🤖 AMR-AI Agent",
     ])
     st.markdown("---")
     st.markdown(f"**{len(df_studies)} studies** · **{df_studies['n_patients'].sum():,} patients**")
@@ -571,6 +572,83 @@ elif module == "🧮 Exception Score Calculator":
         st.markdown("#### Custom Molecules Comparison")
         custom_df = pd.DataFrame(st.session_state["custom_molecules"])
         st.dataframe(custom_df, use_container_width=True, hide_index=True)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# MODULE 5 — AMR-AI Agent
+# ═══════════════════════════════════════════════════════════════════════════════
+elif module == "🤖 AMR-AI Agent":
+    from agent import run_agent
+
+    st.markdown('<div class="section-header">AMR-AI Agent</div>', unsafe_allow_html=True)
+    st.markdown("Agent clinique IA · Hyper-méta-analyse de 97 essais · 58 000+ patients")
+
+    # Clé API
+    with st.sidebar:
+        st.markdown("---")
+        api_key = st.text_input("🔑 Anthropic API Key", type="password",
+                                value=st.session_state.get("amr_api_key", ""))
+        if api_key:
+            st.session_state["amr_api_key"] = api_key
+            st.success("Clé configurée ✓")
+
+    if not st.session_state.get("amr_api_key"):
+        st.info("Entrez votre clé API Anthropic dans la barre latérale pour activer l'agent.")
+        st.stop()
+
+    # Initialiser l'historique
+    if "agent_history" not in st.session_state:
+        st.session_state["agent_history"] = []
+    if "agent_messages" not in st.session_state:
+        st.session_state["agent_messages"] = []  # messages internes Claude
+
+    # Exemples de questions
+    st.markdown("#### Questions exemples")
+    cols = st.columns(3)
+    examples = [
+        "Meilleur traitement pour Klebsiella KPC ?",
+        "Compare cefiderocol vs phage therapy",
+        "Profil de résistance de A. baumannii XDR",
+    ]
+    for i, (col, ex) in enumerate(zip(cols, examples)):
+        if col.button(ex, key=f"ex_{i}"):
+            st.session_state["pending_question"] = ex
+
+    st.markdown("---")
+
+    # Afficher l'historique chat
+    for msg in st.session_state["agent_history"]:
+        with st.chat_message(msg["role"], avatar="🧬" if msg["role"] == "assistant" else "👤"):
+            st.markdown(msg["content"])
+
+    # Input
+    user_input = st.chat_input("Posez votre question clinique AMR...")
+    if "pending_question" in st.session_state:
+        user_input = st.session_state.pop("pending_question")
+
+    if user_input:
+        st.session_state["agent_history"].append({"role": "user", "content": user_input})
+        with st.chat_message("user", avatar="👤"):
+            st.markdown(user_input)
+
+        with st.chat_message("assistant", avatar="🧬"):
+            with st.spinner("L'agent analyse les données..."):
+                try:
+                    answer, new_history = run_agent(
+                        user_input,
+                        st.session_state["agent_messages"],
+                        st.session_state["amr_api_key"]
+                    )
+                    st.session_state["agent_messages"] = new_history
+                    st.markdown(answer)
+                    st.session_state["agent_history"].append({"role": "assistant", "content": answer})
+                except Exception as e:
+                    st.error(f"Erreur agent : {e}")
+
+    if st.session_state["agent_history"]:
+        if st.button("🗑️ Effacer la conversation"):
+            st.session_state["agent_history"] = []
+            st.session_state["agent_messages"] = []
+            st.rerun()
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("---")
