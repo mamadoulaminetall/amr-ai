@@ -101,7 +101,7 @@ story.append(Paragraph(
 story.append(Spacer(1, 0.4*cm))
 story.append(Paragraph("Mamadou Lamine TALL, PhD", author_s))
 story.append(Paragraph(
-    "Research Engineer, Bioinformatics & Biostatistics · MedFlow AI, Montpellier, France",
+    "Aix Marseille Univ, IRD, MEPHI, APHM, IHU-Méditerranée Infection, Marseille, France | MedFlow AI",
     S("affil", fontSize=9, leading=12, textColor=MUTED_C, alignment=TA_CENTER)
 ))
 story.append(Paragraph("mamadoulaminetallgithub@gmail.com", author_s))
